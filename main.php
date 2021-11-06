@@ -1,0 +1,11 @@
+<?php
+
+require('config.php');
+
+try {   //ทำการเชื่อมต่อ database
+    $db = new PDO("mysql:host=" . db_host . ";dbname=" . db_name, db_user, db_pass);
+    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+}
+catch (PDOException $e) {   //หากเชื่อมต่อผิดพลาดให้แสดงข้อความเตือน
+    echo "Failed to connect" . $e->getMessage();
+}
