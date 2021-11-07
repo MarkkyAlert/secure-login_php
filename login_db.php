@@ -16,7 +16,7 @@ if (isset($_POST['submit'])) {
     // กรณีที่กรอกข้อมูลครบถ้วนจะทำการ query ข้อมูล เพื่อเช็คว่ามี email นี้อยู่ในระบบหรือไม่
     else {
         // query ข้อมูล เพื่อเช็คว่ามี email นี้อยู่ในระบบหรือไม่
-        $select_stmt = $db->prepare("SELECT COUNT(email) AS count_email, password FROM users WHERE email = :email");
+        $select_stmt = $db->prepare("SELECT COUNT(email) AS count_email, password, activation_code FROM users WHERE email = :email");
         $select_stmt->bindParam(':email', $email);
         $select_stmt->execute();
         $row = $select_stmt->fetch(PDO::FETCH_ASSOC);
@@ -32,9 +32,16 @@ if (isset($_POST['submit'])) {
             // ถ้า password ที่กรอกเข้ามาตรงกับ password ใน database
             if (password_verify($password, $row['password'])) {
                 // เก็บ email และ สถานะ login และไปยังหน้า index.php
-                $_SESSION['email'] = $email;
-                $_SESSION['is_logged_in'] = true;
-                header('location: index.php');
+                if ($row['activation_code'] == "activated") {
+                    $_SESSION['email'] = $email;
+                    $_SESSION['is_logged_in'] = true;
+                    header('location: index.php');
+                }
+               else {
+                   $_SESSION['activation_msg'] = "กรุณายืนยันอีเมล";
+                   header('location: login.php');
+               }
+                
             }
 
             // ถ้า password ที่กรอกเข้ามาไม่ตรงกับ password ใน database

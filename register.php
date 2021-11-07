@@ -29,7 +29,7 @@
                 <?php echo $_SESSION['err_pw']; ?>
             </div>
         <?php endif; ?>
-        <?php if (isset($_SESSION['exist_uname'])) : ?>
+        <?php if (isset($_SESSION['exist_email'])) : ?>
             <div class="alert alert-danger alert-custom" role="alert">
                 <?php echo $_SESSION['exist_email']; ?>
             </div>
@@ -37,6 +37,16 @@
         <?php if (isset($_SESSION['err_insert'])) : ?>
             <div class="alert alert-danger alert-custom" role="alert">
                 <?php echo $_SESSION['err_insert']; ?>
+            </div>
+        <?php endif; ?>
+        <?php if (isset($_SESSION['sendmail_success'])) : ?>
+            <div class="alert alert-success alert-custom" role="alert">
+                <?php echo $_SESSION['sendmail_success']; ?>
+            </div>
+        <?php endif; ?>
+        <?php if (isset($_SESSION['sendmail_err'])) : ?>
+            <div class="alert alert-danger alert-custom" role="alert">
+                <?php echo $_SESSION['sendmail_err']; ?>
             </div>
         <?php endif; ?>
 
@@ -79,10 +89,12 @@
 </html>
 
 <?php
-    if (isset($_SESSION['err_fill']) || isset($_SESSION['err_pw']) || isset($_SESSION['exist_uname']) || isset($_SESSION['err_insert'])) {
+    if (isset($_SESSION['err_fill']) || isset($_SESSION['err_pw']) || isset($_SESSION['exist_email']) || isset($_SESSION['err_insert']) || isset($_SESSION['sendmail_success']) || isset($_SESSION['sendmail_err'])) {
         unset($_SESSION['err_fill']);
         unset($_SESSION['err_pw']);
-        unset($_SESSION['exist_uname']);
+        unset($_SESSION['exist_email']);
         unset($_SESSION['err_insert']);
+        unset($_SESSION['sendmail_success']);
+        unset($_SESSION['sendmail_err']);
     }
 ?>
