@@ -1,20 +1,15 @@
 <?php 
-    session_start();    // เขียนทุกครั้งที่มีการใช้ตัวแปร session
-    include('connection.php');  // นำเข้าไฟล์ database
-
-    // ถ้าไม่มี $_SESSION['is_logged_in'] (เก็บสถานะ login โดยจะเก็บตอนที่สมัครสมาชิกหรือ login แล้วเท่านั้น) ให้กลับไปยังหน้า login.php เพื่อทำการ login ก่อน
-    if (!isset($_SESSION['is_logged_in'])) {
-        header('location: login.php');
-    }
+include('main.php');
+check_login($db);
 
     // ถ้ามี $_SESSION['is_logged_in'] แสดงว่ามีการ login เข้ามาแล้ว
-    else {
+  
         // query ข้อมูลของคนที่ login เข้ามา เพื่อแสดงผลใน html
-        $select_stmt = $db->prepare("SELECT * FROM users WHERE email = :email");
-        $select_stmt->bindParam(':email', $_SESSION['email']);
-        $select_stmt->execute();
-        $row = $select_stmt->fetch(PDO::FETCH_ASSOC);   // ทำบรรทัดนี้ กรณีที่เราต้องการดึงข้อมูลมาแสดง
-    }
+$select_stmt = $db->prepare("SELECT * FROM users WHERE email = :email");
+$select_stmt->bindParam(':email', $_SESSION['email']);
+$select_stmt->execute();
+$row = $select_stmt->fetch(PDO::FETCH_ASSOC);   // ทำบรรทัดนี้ กรณีที่เราต้องการดึงข้อมูลมาแสดง
+
 ?>
 
 <!DOCTYPE html>

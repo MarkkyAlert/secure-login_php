@@ -17,10 +17,29 @@ catch (PDOException $e) {   //หากเชื่อมต่อผิดพ�
     echo "Failed to connect" . $e->getMessage();
 }
 
-function send_email($email, $activation_code) {
+function check_login($db) {
+    if (isset($_COOKIE['remember']) && $_COOKIE['remember'] != '') {
+        $select_stmt = $db->prepare("SELECT * FROM users WHERE remember = :remember");
+        $select_stmt->bindParam(':remember', $_COOKIE['remember']);
+        $select_stmt->execute();
+        $row = $select_stmt->fetch(PDO::FETCH_ASSOC);
 
+        if ($row) {
+            $_SESSION['is_logged_in'] = true;
+            $_SESSION['email'] = $row['email'];
+            $_SESSION['role'] = $row['role'];
+        }
+        else {
+            header('location: login.php');
+        }
+    }
+    else if (!isset($_SESSION['is_logged_in'])) {
+        header('location: login.php');
+    }
     
+}
 
+function send_email($email, $activation_code) {
 
     header('Content-Type: text/html; charset=utf-8');
 

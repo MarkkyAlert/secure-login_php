@@ -16,13 +16,13 @@ if (isset($_POST['submit'])) {
     // กรณีที่กรอกข้อมูลครบถ้วนจะทำการ query ข้อมูล เพื่อเช็คว่ามี email นี้อยู่ในระบบหรือไม่
     else {
         // query ข้อมูล เพื่อเช็คว่ามี email นี้อยู่ในระบบหรือไม่
-        $select_stmt = $db->prepare("SELECT COUNT(email) AS count_email, password, activation_code FROM users WHERE email = :email");
+        $select_stmt = $db->prepare("SELECT * FROM users WHERE email = :email");
         $select_stmt->bindParam(':email', $email);
         $select_stmt->execute();
         $row = $select_stmt->fetch(PDO::FETCH_ASSOC);
 
         // ถ้ามี email ในระบบให้ทำการส่งข้อความกลับไปยังหน้า login.php
-        if ($row['count_email'] == 0) {
+        if (!$row) {
             $_SESSION['err_email'] = "ไม่มี email นี้ในระบบ";
             header('location: login.php');
         }
@@ -33,7 +33,22 @@ if (isset($_POST['submit'])) {
             if (password_verify($password, $row['password'])) {
                 // เก็บ email และ สถานะ login และไปยังหน้า index.php
                 if ($row['activation_code'] == "activated") {
+                    if (isset($_POST['remember'])) {
+                        if ($row['remember'] == '') {
+                            $hash_cookie = password_hash($row['user_id'] . $row['email'], PASSWORD_DEFAULT);
+                        }
+                        else {
+                            $hash_cookie = $row['remember'];
+                        }
+                        $days = 30;
+                        setcookie('remember', $hash_cookie, (int)(time()+60*60*24*$days));
+                        $update_stmt = $db->prepare("UPDATE users SET remember = :hash_cookie WHERE email = :email");
+                        $update_stmt->bindParam(':hash_cookie', $hash_cookie);
+                        $update_stmt->bindParam(':email', $email);
+                        $update_stmt->execute();
+                    }
                     $_SESSION['email'] = $email;
+                    $_SESSION['role'] = $row['role'];
                     $_SESSION['is_logged_in'] = true;
                     header('location: index.php');
                 }

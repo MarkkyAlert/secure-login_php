@@ -1,10 +1,8 @@
 <?php
-    session_start(); // เขียนทุกครั้งที่มีการใช้ตัวแปร session
-
+    include('main.php');
+    check_login($db); 
     // ถ้าไม่มี $_SESSION['is_logged_in'] (เก็บสถานะ login โดยจะเก็บตอนที่สมัครสมาชิกหรือ login แล้วเท่านั้น) ให้กลับไปยังหน้า login.php เพื่อทำการ login ก่อน
-    if (!isset($_SESSION['is_logged_in'])) {
-        header('location: login.php');
-    }
+    
 ?>
 
 <!DOCTYPE html>
@@ -51,6 +49,7 @@
                     <div class="card-body">
                         <h1>ยินดีต้อนรับ</h1>
                         <h3>คุณ <?php echo $_SESSION['email']; ?></h3>    <!-- แสดงผล $_SESSION['username'] ซึ่งทำการเก็บ username ในขั้นตอน login หรือ register-->
+                        <h3>คุณคือ <?php echo $_SESSION['role']; ?></h3>  
                     </div>
                 </div>
             </div>
