@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 require('config.php');
 
 try {   //ทำการเชื่อมต่อ database
@@ -9,3 +9,4 @@ try {   //ทำการเชื่อมต่อ database
 catch (PDOException $e) {   //หากเชื่อมต่อผิดพลาดให้แสดงข้อความเตือน
     echo "Failed to connect" . $e->getMessage();
 }
+

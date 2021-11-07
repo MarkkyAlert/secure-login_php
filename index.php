@@ -50,7 +50,7 @@
                 <div class="card mt-5 text-center">
                     <div class="card-body">
                         <h1>ยินดีต้อนรับ</h1>
-                        <h3>คุณ <?php echo $_SESSION['username']; ?></h3>    <!-- แสดงผล $_SESSION['username'] ซึ่งทำการเก็บ username ในขั้นตอน login หรือ register-->
+                        <h3>คุณ <?php echo $_SESSION['email']; ?></h3>    <!-- แสดงผล $_SESSION['username'] ซึ่งทำการเก็บ username ในขั้นตอน login หรือ register-->
                     </div>
                 </div>
             </div>
