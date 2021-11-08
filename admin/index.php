@@ -1,6 +1,6 @@
 <?php
     include('../main.php');
-    check_login($db);
+    
 
     $select_stmt = $db->prepare("SELECT * FROM users");
     $select_stmt->execute();
@@ -146,9 +146,9 @@
                                             <?php $i++; ?>
                                             <td><?php echo $i; ?></td>
                                             <td><?php echo $row['email']; ?></td>
-                                            <td><?php echo $row['email']; ?></td>
-                                            <td><?php echo $row['email']; ?></td>
-                                            <td><?php echo $row['email']; ?></td>
+                                            <td><?php echo $row['password']; ?></td>
+                                            <td><?php echo $row['activation_code']; ?></td>
+                                            <td><?php echo $row['role']; ?></td>
                                             
                                         </tr>
                                         
