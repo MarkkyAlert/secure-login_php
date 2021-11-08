@@ -36,6 +36,11 @@ $row = $select_stmt->fetch(PDO::FETCH_ASSOC);   // ทำบรรทัดน�
                     <li class="nav-item">
                         <a class="nav-link active" href="profile.php"><i class="fas fa-user-circle"></i> Profile</a>
                     </li>
+                    <?php if ($_SESSION['role'] == "Admin"): ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="admin/index.php"><i class="fas fa-user-circle"></i> Admin</a>
+                    </li>
+                    <?php endif; ?>
                     <li class="nav-item">
                         <a class="nav-link" href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
                     </li>

@@ -17,8 +17,7 @@ if (isset($_POST['submit'])) {
 
     if (empty($email)) {
         $msg = "กรุณากรอกอีเมล";
-    } 
-    else if ($password != $confirm) {
+    } else if ($password != $confirm) {
         $msg = "กรุณากรอกรหัสผ่านให้ตรงกัน";
     }
     if (empty($msg)) {
@@ -26,18 +25,15 @@ if (isset($_POST['submit'])) {
         if (account_activation) {
             if ($row['email'] == $email) {
                 $activation_code = $row['activation_code'];
-            } 
-            else {
+            } else {
                 $activation_code = uniqid();
             }
-        } 
-        else {
+        } else {
             $activation_code = $row['activation_code'];
         }
         if (!empty($password)) {
             $password = password_hash($password, PASSWORD_DEFAULT);
-        } 
-        else {
+        } else {
             $password = $row['password'];
         }
         $update_stmt = $db->prepare("UPDATE users SET email = :email, password = :password, activation_code = :activation_code WHERE user_id = :user_id");
@@ -52,8 +48,7 @@ if (isset($_POST['submit'])) {
             send_email($email, $activation_code);
             $msg = "คุณได้ทำการเปลี่ยนอีเมล กรุณายืนยันอีเมล";
             unset($_SESSION['is_logged_in']);
-        } 
-        else {
+        } else {
             header("location: profile.php?email={$_SESSION['email']}");
         }
     }
@@ -87,6 +82,11 @@ if (isset($_POST['submit'])) {
                     <li class="nav-item">
                         <a class="nav-link active" href="profile.php"><i class="fas fa-user-circle"></i> Profile</a>
                     </li>
+                    <?php if ($_SESSION['role'] == "Admin") : ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="admin/index.php"><i class="fas fa-user-circle"></i> Admin</a>
+                        </li>
+                    <?php endif; ?>
                     <li class="nav-item">
                         <a class="nav-link" href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
                     </li>
@@ -108,7 +108,11 @@ if (isset($_POST['submit'])) {
                     <div class="card-body" style="line-height: 2.5;">
                         <h4>รายละเอียดบัญชี</h4>
 
-                        <form <?php if (!isset($_SESSION['is_logged_in'])) {echo "action='login.php'";} else {echo "action=''";} ?> method="post">
+                        <form <?php if (!isset($_SESSION['is_logged_in'])) {
+                                    echo "action='login.php'";
+                                } else {
+                                    echo "action=''";
+                                } ?> method="post">
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label">Email</label>
                                 <input type="email" class="form-control" name="email" value="<?php echo $row['email']; ?>" id="exampleInputEmail1" aria-describedby="emailHelp">

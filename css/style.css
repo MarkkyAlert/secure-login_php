@@ -93,3 +93,12 @@ body {
     }
     
 }
+
+.edit-form {
+    width: 100%;
+}
+@media screen and (min-width: 1200px) {
+    .edit-form {
+        width: 25%;
+    }
+}

@@ -1,8 +1,8 @@
 <?php
-    include('main.php');
-    check_login($db); 
-    // ถ้าไม่มี $_SESSION['is_logged_in'] (เก็บสถานะ login โดยจะเก็บตอนที่สมัครสมาชิกหรือ login แล้วเท่านั้น) ให้กลับไปยังหน้า login.php เพื่อทำการ login ก่อน
-    
+include('main.php');
+check_login($db);
+// ถ้าไม่มี $_SESSION['is_logged_in'] (เก็บสถานะ login โดยจะเก็บตอนที่สมัครสมาชิกหรือ login แล้วเท่านั้น) ให้กลับไปยังหน้า login.php เพื่อทำการ login ก่อน
+
 ?>
 
 <!DOCTYPE html>
@@ -31,8 +31,13 @@
                         <a class="nav-link active" aria-current="page" href="index.php"><i class="fas fa-home"></i> Home</a>
                     </li>
                     <li class="nav-item">
-                    <a class="nav-link" href="profile.php"><i class="fas fa-user-circle"></i> Profile</a>
+                        <a class="nav-link" href="profile.php"><i class="fas fa-user-circle"></i> Profile</a>
                     </li>
+                    <?php if ($_SESSION['role'] == "Admin"): ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="admin/index.php"><i class="fas fa-user-circle"></i> Admin</a>
+                    </li>
+                    <?php endif; ?>
                     <li class="nav-item">
                         <a class="nav-link" href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
                     </li>
@@ -44,12 +49,12 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-            <h1 class="mt-5">Home Page</h1>
+                <h1 class="mt-5">Home Page</h1>
                 <div class="card mt-5 text-center">
                     <div class="card-body">
                         <h1>ยินดีต้อนรับ</h1>
-                        <h3>คุณ <?php echo $_SESSION['email']; ?></h3>    <!-- แสดงผล $_SESSION['username'] ซึ่งทำการเก็บ username ในขั้นตอน login หรือ register-->
-                        <h3>คุณคือ <?php echo $_SESSION['role']; ?></h3>  
+                        <h3>คุณ <?php echo $_SESSION['email']; ?></h3> <!-- แสดงผล $_SESSION['username'] ซึ่งทำการเก็บ username ในขั้นตอน login หรือ register-->
+                        <h3>คุณคือ <?php echo $_SESSION['role']; ?></h3>
                     </div>
                 </div>
             </div>
