@@ -44,11 +44,6 @@
                 <?php echo $_SESSION['sendmail_success']; ?>
             </div>
         <?php endif; ?>
-        <?php if (isset($_SESSION['sendmail_err'])) : ?>
-            <div class="alert alert-danger alert-custom" role="alert">
-                <?php echo $_SESSION['sendmail_err']; ?>
-            </div>
-        <?php endif; ?>
 
         <form class="p-5 card login-card-custom" action="register_db.php" method="post">
 
@@ -89,12 +84,12 @@
 </html>
 
 <?php
-    if (isset($_SESSION['err_fill']) || isset($_SESSION['err_pw']) || isset($_SESSION['exist_email']) || isset($_SESSION['err_insert']) || isset($_SESSION['sendmail_success']) || isset($_SESSION['sendmail_err'])) {
+    if (isset($_SESSION['err_fill']) || isset($_SESSION['err_pw']) || isset($_SESSION['exist_email']) || isset($_SESSION['err_insert']) || isset($_SESSION['sendmail_success'])) {
         unset($_SESSION['err_fill']);
         unset($_SESSION['err_pw']);
         unset($_SESSION['exist_email']);
         unset($_SESSION['err_insert']);
         unset($_SESSION['sendmail_success']);
-        unset($_SESSION['sendmail_err']);
+        
     }
 ?>

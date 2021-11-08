@@ -2,14 +2,10 @@
 include('main.php');
 check_login($db);
 
-    // ถ้ามี $_SESSION['is_logged_in'] แสดงว่ามีการ login เข้ามาแล้ว
-  
-        // query ข้อมูลของคนที่ login เข้ามา เพื่อแสดงผลใน html
 $select_stmt = $db->prepare("SELECT * FROM users WHERE email = :email");
 $select_stmt->bindParam(':email', $_SESSION['email']);
 $select_stmt->execute();
 $row = $select_stmt->fetch(PDO::FETCH_ASSOC);   // ทำบรรทัดนี้ กรณีที่เราต้องการดึงข้อมูลมาแสดง
-
 ?>
 
 <!DOCTYPE html>
@@ -60,7 +56,7 @@ $row = $select_stmt->fetch(PDO::FETCH_ASSOC);   // ทำบรรทัดน�
                         <span class="mt-5" style="font-weight: 700;">Email</span> : <span><?php echo $row['email']; ?></span><br>
                         <span style="font-weight: 700;">Password</span> : <span><?php echo $row['password']; ?></span><br>
                         <span style="font-weight: 700;">Role</span> : <span><?php echo $row['role']; ?></span><br>
-                        <a href="" class="btn btn-info mt-3">Edit</a>
+                        <a href="edit_profile.php?user_id=<?php echo $row['user_id']; ?>" class="btn btn-info mt-3">Edit</a>
                     </div>
                 </div>
             </div>

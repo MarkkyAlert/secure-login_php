@@ -56,7 +56,7 @@ if (isset($_POST['submit'])) {
                    $_SESSION['activation_msg'] = "กรุณายืนยันอีเมล";
                    header('location: login.php');
                }
-                
+
             }
 
             // ถ้า password ที่กรอกเข้ามาไม่ตรงกับ password ใน database

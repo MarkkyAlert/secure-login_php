@@ -43,9 +43,7 @@ function send_email($email, $activation_code) {
 
     header('Content-Type: text/html; charset=utf-8');
 
-    $txtname = $_POST['txtname'];
-    $email = $_POST['email'];
-    $txtarea = $_POST['txtarea'];
+    
 
     $mail = new PHPMailer;
     $mail->CharSet = "utf-8";
@@ -68,13 +66,7 @@ function send_email($email, $activation_code) {
 
     if ($email_receiver) {
         $mail->msgHTML($email_content);
-
-        if (!$mail->send()) {
-            return false;
-        }
-        else {
-            return true;
-        }
+        $mail->send();
     }
 }
 

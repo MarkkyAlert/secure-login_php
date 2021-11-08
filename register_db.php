@@ -29,7 +29,7 @@ if (isset($_POST['submit'])) {
         // ถ้ารหัสผ่านกับยืนยันรหัสผ่านตรงกันจะทำการ query ข้อมูล เพื่อเช็คว่ามี username นี้อยู่ในระบบหรือไม่
         else {
             // query ข้อมูล เพื่อเช็คว่ามี username นี้อยู่ในระบบหรือไม่
-            $select_stmt = $db->prepare("SELECT COUNT(email) AS count_email FROM users WHERE email = :email");
+            $select_stmt = $db->prepare("SELECT COUNT(email) AS count_email, user_id FROM users WHERE email = :email");
             $select_stmt->bindParam(':email', $email);
             $select_stmt->execute();
             $row = $select_stmt->fetch(PDO::FETCH_ASSOC);
@@ -58,16 +58,14 @@ if (isset($_POST['submit'])) {
                 // ถ้าสมัครสมาชิกสำเร็จ จะเก็บ username และ สถานะ login และไปยังหน้า index.php
                 if ($insert_stmt) {
                     if (account_activation) {
-                        if (send_email($email, $activation_code)) {
-                            $_SESSION['sendmail_success'] = "ระบบได้ส่งลิงก์ยืนยันไปที่เมลของท่าน กรุณาทำการยืนยัน";
-                            header('location: register.php');
-                        } else {
-                            $_SESSION['sendmail_err'] = "ไม่สามารถส่งอีเมล์ได้";
-                            header('location: register.php');
-                        }
+                        send_email($email, $activation_code);
+                        $_SESSION['sendmail_success'] = "ระบบได้ส่งลิงก์ยืนยันไปที่เมลของท่าน กรุณาทำการยืนยัน";
+                        header('location: register.php');
+                        
                     } else {
                         $_SESSION['email'] = $email;
                         $_SESSION['is_logged_in'] = true;
+                        $_SESSION['role'] = $row['role'];
                         header('location: index.php');
                     }
                 }
