@@ -55,9 +55,9 @@ function send_email($email, $activation_code) {
 
     // ต้องขอการเข้าถึงจาก google ที่ https://www.google.com/settings/security/lesssecureapps
 
-    $mail->Username = "puettipong.o@gmail.com";
-    $mail->Password = "Appleid13";
-    $mail->setFrom("puettipong.o@gmail.com", "MARKPRUET");
+    $mail->Username = mail_from;
+    $mail->Password = mail_password;
+    $mail->setFrom(mail_from, company_name);
     $mail->addAddress($email);
     $mail->Subject = "กรุณายืนยันอีเมล์ของท่าน";
     $email_content = activation_link . '?email=' . $email . '&code=' . $activation_code;
