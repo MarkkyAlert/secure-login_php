@@ -47,6 +47,34 @@ function is_not_admin($role, $redirect) {
     }
 }
 
+function template_email($link, $email, $activation_code) {
+    $activation_link = $link . '?email=' . $email . '&code=' . $activation_code;
+    
+    return <<<EOT
+    <!DOCTYPE html>
+    <html>
+    
+    <head>
+        <title>Account Activation Required</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,minimum-scale=1">
+    </head>
+    
+    <body style="font-family:-apple-system, BlinkMacSystemFont, "segoe ui", roboto, oxygen, ubuntu, cantarell, "fira sans", "droid sans", "helvetica neue", Arial, sans-serif;box-sizing:border-box;font-size:16px;">
+        <div style="background-color:#F5F6F8;">
+            <div style="padding:60px;background-color:#fff;margin:60px;text-align:center;box-sizing:border-box;font-size:16px;">
+                <h1 style="box-sizing:border-box;font-size:18px;color:#474a50;padding-bottom:10px;">ยืนยันบัญชี</h1>
+                <p style="box-sizing:border-box;font-size:16px;">คลิก <a href="$activation_link"
+                        style="text-decoration:none;color:#c52424;box-sizing:border-box;font-size:16px;">ที่นี่</a>
+                    เพื่อทำการยืนยันบัญชี</p>
+            </div>
+        </div>
+    </body>
+    
+    </html>
+    EOT;
+}
+
 function send_email($email, $activation_code) {
 
     header('Content-Type: text/html; charset=utf-8');
@@ -68,7 +96,7 @@ function send_email($email, $activation_code) {
     $mail->setFrom(mail_from, company_name);
     $mail->addAddress($email);
     $mail->Subject = "กรุณายืนยันอีเมล์ของท่าน";
-    $email_content = activation_link . '?email=' . $email . '&code=' . $activation_code;
+    $email_content = template_email(activation_link, $email, $activation_code);
 
     $email_receiver = $email;
 
