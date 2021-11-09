@@ -1,6 +1,6 @@
 <?php 
 include('main.php');
-check_login($db);
+check_login($db, "index.php");
 
 $select_stmt = $db->prepare("SELECT * FROM users WHERE email = :email");
 $select_stmt->bindParam(':email', $_SESSION['email']);
@@ -31,20 +31,19 @@ $row = $select_stmt->fetch(PDO::FETCH_ASSOC);   // ทำบรรทัดน�
             <div class="collapse navbar-collapse " id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="index.php"><i class="fas fa-home"></i> Home</a>
+                        <a class="nav-link" href="index.php"><i class="fas fa-home"></i> Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" href="profile.php"><i class="fas fa-user-circle"></i> Profile</a>
                     </li>
                     <?php if ($_SESSION['role'] == "Admin"): ?>
                     <li class="nav-item">
-                        <a class="nav-link" href="admin/index.php"><i class="fas fa-user-circle"></i> Admin</a>
+                        <a class="nav-link" href="admin/index.php"><i class="fas fa-user-cog"></i> Admin</a>
                     </li>
                     <?php endif; ?>
                     <li class="nav-item">
                         <a class="nav-link" href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
                     </li>
-
                 </ul>
             </div>
         </div>
@@ -61,7 +60,7 @@ $row = $select_stmt->fetch(PDO::FETCH_ASSOC);   // ทำบรรทัดน�
                         <span class="mt-5" style="font-weight: 700;">Email</span> : <span><?php echo $row['email']; ?></span><br>
                         <span style="font-weight: 700;">Password</span> : <span><?php echo $row['password']; ?></span><br>
                         <span style="font-weight: 700;">Role</span> : <span><?php echo $row['role']; ?></span><br>
-                        <a href="edit_profile.php?user_id=<?php echo $row['user_id']; ?>" class="btn btn-info mt-3">Edit</a>
+                        <a href="edit_profile.php?user_id=<?php echo $row['user_id']; ?>" class="btn btn-info mt-3 text-white">Edit</a>
                     </div>
                 </div>
             </div>

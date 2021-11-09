@@ -48,23 +48,18 @@
         <form class="p-5 card login-card-custom" action="register_db.php" method="post">
 
             <div class="form-outline mb-3">
-                <label class="form-label" for="form1Example1">อีเมล</label>
-                <input type="email" name="email" class="form-control" />
+                <label class="form-label" for="email">อีเมล</label>
+                <input type="email" name="email" id="email" class="form-control" />
             </div>
 
             <div class="form-outline mb-3">
-                <label class="form-label" for="form1Example1">รหัสผ่าน</label>
-                <input type="password" name="password" class="form-control" />
+                <label class="form-label" for="password">รหัสผ่าน</label>
+                <input type="password" name="password" id="password" class="form-control" />
             </div>
 
             <div class="form-outline mb-3">
-                <label class="form-label" for="form1Example1">ยืนยันรหัสผ่าน</label>
-                <input type="password" name="confirm_password" class="form-control" />
-            </div>
-
-            <div class="mb-3 form-check">
-                <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                <label class="form-check-label" for="exampleCheck1">จดจำฉัน</label>
+                <label class="form-label" for="confirm_password">ยืนยันรหัสผ่าน</label>
+                <input type="password" name="confirm_password" id="password" class="form-control" />
             </div>
 
             <div class="row">
@@ -90,6 +85,5 @@
         unset($_SESSION['exist_email']);
         unset($_SESSION['err_insert']);
         unset($_SESSION['sendmail_success']);
-        
     }
 ?>

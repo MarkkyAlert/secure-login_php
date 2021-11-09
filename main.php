@@ -17,7 +17,7 @@ catch (PDOException $e) {   //หากเชื่อมต่อผิดพ�
     echo "Failed to connect" . $e->getMessage();
 }
 
-function check_login($db) {
+function check_login($db, $redirect) {
     if (isset($_COOKIE['remember']) && $_COOKIE['remember'] != '') {
         $select_stmt = $db->prepare("SELECT * FROM users WHERE remember = :remember");
         $select_stmt->bindParam(':remember', $_COOKIE['remember']);
@@ -30,13 +30,21 @@ function check_login($db) {
             $_SESSION['role'] = $row['role'];
         }
         else {
-            header('location: login.php');
+            header("location: $redirect");
+            exit;
         }
     }
     else if (!isset($_SESSION['is_logged_in'])) {
-        header('location: login.php');
+        header("location: $redirect");
+        exit;
     }
     
+}
+
+function is_not_admin($role, $redirect) {
+    if ($role != 'Admin') {
+        header("location: $redirect");
+    }
 }
 
 function send_email($email, $activation_code) {
