@@ -8,14 +8,38 @@ if (isset($_GET['user_id'])) {
     $select_stmt->bindParam(':user_id', $_GET['user_id']);
     $select_stmt->execute();
     $row = $select_stmt->fetch(PDO::FETCH_ASSOC);
+    if (isset($_POST['delete'])) {
+        $delete_stmt = $db->prepare("DELETE FROM users WHERE user_id = :user_id");
+        $delete_stmt->bindParam(':user_id', $_POST['user_id']);
+        $delete_stmt->execute();
+        header('location: index.php');
+        exit;
+    }
+    else if (isset($_POST['submit'])) {
+        $email = $_POST['email'];
+        $activation_code = $_POST['activation_code'];
+        $remember = $_POST['remember'];
+        $role = $_POST['role'];
+        if (empty($_POST['password'])) {
+            $password = $row['password'];
+        }
+        else {
+            $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+        }
+        $update_stmt = $db->prepare("UPDATE users SET email = :email, password = :password, activation_code = :activation_code, remember = :remember, role = :role WHERE user_id = :user_id");
+        $update_stmt->bindParam(':email', $email);
+        $update_stmt->bindParam(':password', $password);
+        $update_stmt->bindParam(':activation_code', $activation_code);
+        $update_stmt->bindParam(':remember', $remember);
+        $update_stmt->bindParam(':role', $role);
+        $update_stmt->bindParam(':user_id', $_GET['user_id']);
+        $update_stmt->execute();
+        header('location: index.php');
+        exit;
+    }
 }
-if (isset($_POST['delete'])) {
-    $delete_stmt = $db->prepare("DELETE FROM users WHERE user_id = :user_id");
-    $delete_stmt->bindParam(':user_id', $_POST['user_id']);
-    $delete_stmt->execute();
-    header('location: index.php');
-    exit;
-}
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

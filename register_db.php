@@ -49,7 +49,7 @@ if (isset($_POST['submit'])) {
                 } else {
                     $activation_code = "activated";
                 }
-                $insert_stmt = $db->prepare("INSERT INTO users (email, password, activation_code, role) VALUES (:email, :password, :activation_code, 'user')");
+                $insert_stmt = $db->prepare("INSERT INTO users (email, password, activation_code, role) VALUES (:email, :password, :activation_code, 'Member')");
                 $insert_stmt->bindParam(':email', $email);
                 $insert_stmt->bindParam(':password', $password);
                 $insert_stmt->bindParam(':activation_code', $activation_code);
