@@ -35,19 +35,19 @@
         <?php endif; ?>
         <?php if (isset($_SESSION['activation_msg'])) : ?>
             <div class="alert alert-danger alert-custom" role="alert">
-                <?php echo $_SESSION['activation_msg']; ?>
+                <?php echo $_SESSION['activation_msg']; ?> หากไม่ได้รับข้อความ <a href="resend_email.php" style="color: red; text-decoration: none;"> คลิกที่นี่ </a>
             </div>
         <?php endif; ?>
 
         <form class="p-5 card login-card-custom" action="login_db.php" method="post">
             <div class="form-outline mb-3">
                 <label class="form-label" for="email">อีเมล</label>
-                <input type="email" name="email" id="email" class="form-control" />
+                <input type="email" name="email" id="email" class="form-control" required/>
             </div>
 
             <div class="form-outline mb-3">
                 <label class="form-label" for="password">รหัสผ่าน</label>
-                <input type="password" name="password" id="password" class="form-control" />
+                <input type="password" name="password" id="password" class="form-control" required/>
             </div>
 
             <div class="mb-3 form-check">

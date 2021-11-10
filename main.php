@@ -1,6 +1,6 @@
 <?php
 session_start();
-require('config.php');
+include('config.php');
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -76,11 +76,7 @@ function template_email($link, $email, $activation_code) {
 }
 
 function send_email($email, $activation_code) {
-
     header('Content-Type: text/html; charset=utf-8');
-
-    
-
     $mail = new PHPMailer;
     $mail->CharSet = "utf-8";
     $mail->isSMTP();
@@ -97,7 +93,6 @@ function send_email($email, $activation_code) {
     $mail->addAddress($email);
     $mail->Subject = "กรุณายืนยันอีเมล์ของท่าน";
     $email_content = template_email(activation_link, $email, $activation_code);
-
     $email_receiver = $email;
 
     if ($email_receiver) {

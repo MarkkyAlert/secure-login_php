@@ -49,17 +49,17 @@
 
             <div class="form-outline mb-3">
                 <label class="form-label" for="email">อีเมล</label>
-                <input type="email" name="email" id="email" class="form-control" />
+                <input type="email" name="email" id="email" class="form-control" required/>
             </div>
 
             <div class="form-outline mb-3">
                 <label class="form-label" for="password">รหัสผ่าน</label>
-                <input type="password" name="password" id="password" class="form-control" />
+                <input type="password" name="password" id="password" class="form-control" required/>
             </div>
 
             <div class="form-outline mb-3">
                 <label class="form-label" for="confirm_password">ยืนยันรหัสผ่าน</label>
-                <input type="password" name="confirm_password" id="password" class="form-control" />
+                <input type="password" name="confirm_password" id="password" class="form-control" required/>
             </div>
 
             <div class="row">

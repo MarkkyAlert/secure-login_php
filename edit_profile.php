@@ -113,16 +113,16 @@ if (isset($_POST['submit'])) {
                         <h4>รายละเอียดบัญชี</h4>
                         <form <?php if (!isset($_SESSION['is_logged_in'])) {echo "action='login.php'";} else {echo "action=''";} ?> method="post">
                             <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label">Email</label>
-                                <input type="email" class="form-control" name="email" value="<?php echo $row['email']; ?>" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" name="email" value="<?php echo $row['email']; ?>" id="email" aria-describedby="emailHelp" required>
                             </div>
                             <div class="mb-3">
-                                <label for="exampleInputPassword1" class="form-label">Password</label>
-                                <input type="password" class="form-control" name="password" id="exampleInputPassword1">
+                                <label for="password" class="form-label">Password</label>
+                                <input type="password" class="form-control" name="password" id="password">
                             </div>
                             <div class="mb-3">
-                                <label for="exampleInputPassword1" class="form-label">Confirm Password</label>
-                                <input type="password" class="form-control" name="confirm_password" id="exampleInputPassword1">
+                                <label for="confirm_password" class="form-label">Confirm Password</label>
+                                <input type="password" class="form-control" name="confirm_password" id="confirm_password">
                             </div>
 
                             <button type="submit" name="submit" class="btn btn-primary">save</button>
