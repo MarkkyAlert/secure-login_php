@@ -5,8 +5,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>คำแนะนำ</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap');
         * {
             margin: 0;
             padding: 0;
@@ -15,7 +16,7 @@
         }
 
         body {
-            background-color: #f1f3f7
+            background-color: #f1f3f7;
         }
 
         .container {
@@ -24,6 +25,8 @@
             background-color: #fff;
             padding: 3rem;
             line-height: 2.5;
+            font-family: 'Sarabun', sans-serif;
+            width:90%;
         }
 
         .text-center {
@@ -32,17 +35,39 @@
 
         h1 {
             font-size: 2rem;
+            color: #495362;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 1rem;
+        }
+        h1:first-child {
+            
+            padding-bottom: 2rem;
+        }
+        h1:not(:first-child) {
+            
+            padding-bottom: 1rem;
         }
 
         p {
-            font-size: 1rem;
+            font-size: 1.5rem;
         }
 
         .code {
             width: 100%;
             background-color: #f1f3f7;
             padding: 1rem;
-            overflow: scroll;
+            overflow: auto;
+            margin: 1rem 0;
+        }
+        pre {
+            font-size: 1.2rem;
+            line-height: 2.0;
+        }
+
+        @media screen and (max-width: 576px) {
+            * {
+                font-size: 8px;
+            }
         }
     </style>
 </head>
@@ -50,9 +75,12 @@
 <body>
     <div class="container">
         <h1 class="text-center">คำแนะนำ</h1>
+     
         <p>Brute Force Protection เป็นการป้องกันโดยจำกัดจำนวนครั้งในการเข้าสู่ระบบ
             เพื่อป้องกันไม่ให้ผู้ไม่หวังดีสามารถเข้าระบบของเราจากการเดารหัสผ่าน</p>
+           
         <h1>วิธีใช้</h1>
+        
         <p>เข้าไปที่ phpMyAdmin เลือก database ชื่อ "secure_login" และทำการ import ไฟล์ "login_attempts.sql"</p>
         <p>เข้าไปที่ "main.php" และทำการเพิ่มโค้ดด้านล่าง</p>
         <div class="code">
@@ -126,7 +154,7 @@ $login_attempts = loginAttempts($db, TRUE);
 $_SESSION['err_pw'] = 'รหัสผ่านไม่ถูกต้อง, คุณเหลือจำนวนครั้งในการล็อกอิน ' . $login_attempts['attempts_left'] . ' ครั้ง';
 </pre>
         </div>
-        <p>** หากต้องการเปลี่ยนจำนวนครั้งในการล็อกอิน ให้เปลี่ยน default value ในตาราง "attempts_left"</p>
+        <p style="color: red;">** หากต้องการเปลี่ยนจำนวนครั้งในการล็อกอิน ให้เปลี่ยน default value ในตาราง "attempts_left"</p>
     </div>
 </body>
 
