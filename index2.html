@@ -75,8 +75,48 @@
 <body>
     <div class="container">
         <h1 class="text-center">คำแนะนำ</h1>
-     
-        
+        <p>CSRF Protection จะช่วยในการป้องกัน Cross Site Request Forgery attacks ในการล็อกอินแต่ละครั้งจะมีการสร้าง session เพื่อเก็บ token โดยสามารถนำ token ไปตรวจสอบกรณีที่มีการส่งข้อมูลผ่านฟอร์มได้</p>
+        <h1>วิธีใช้</h1>
+        <p>ไปที่ "login.php" และค้นหา</p>
+        <div class="code">
+<pre>
+session_start();
+</pre>
+        </div>
+        <p>เพิ่มโค้ดชุดนี้หลังจากโค้ดด้านบน</p>
+        <div class="code">
+<pre>
+$_SESSION['token'] = md5(uniqid(rand(), true));
+</pre>
+        </div>
+        <p>ค้นหา</p>
+        <div class="code">
+<pre>
+&lt;button type=&quot;submit&quot; name=&quot;submit&quot; class=&quot;btn login-btn-blue btn-block text-white&quot;>เข้าสู่ระบบ&lt;/button>
+</pre>
+        </div>
+        <p>เพิ่มโค้ดชุดนี้ก่อนหน้าโค้ดด้านบน</p>
+        <div class="code">
+<pre>
+&lt;input type=&quot;hidden&quot; name=&quot;token&quot; value=&quot;&lt;?php echo $_SESSION['token']; ?>&quot;>
+</pre>
+        </div>
+        <p>ไปที่ "login_db.php" และค้นหา</p>
+        <div class="code">
+<pre>
+include('main.php');
+</pre>
+        </div>
+        <p>เพิ่มโค้ดชุดนี้หลังจากโค้ดด้านบน</p>
+        <div class="code">
+<pre>
+if (!isset($_POST['token']) || $_POST['token'] != $_SESSION['token']) {
+    $_SESSION['err_token'] = "token ไม่ถูกต้อง";
+    header('location: login.php');
+    exit;
+}
+</pre>
+        </div>
     </div>
 </body>
 

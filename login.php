@@ -38,6 +38,11 @@
                 <?php echo $_SESSION['activation_msg']; ?> หากไม่ได้รับข้อความ <a href="resend_email.php" style="color: red; text-decoration: none;"> คลิกที่นี่ </a>
             </div>
         <?php endif; ?>
+        <?php if (isset($_SESSION['err_token'])) : ?>
+            <div class="alert alert-danger alert-custom" role="alert">
+                <?php echo $_SESSION['err_token']; ?>
+            </div>
+        <?php endif; ?>
 
         <form class="p-5 card login-card-custom" action="login_db.php" method="post">
             <div class="form-outline mb-3">
@@ -71,10 +76,11 @@
 </html>
 
 <?php
-if (isset($_SESSION['err_fill']) || isset($_SESSION['err_pw']) || isset($_SESSION['err_email']) || isset($_SESSION['activation_msg'])) {
+if (isset($_SESSION['err_fill']) || isset($_SESSION['err_pw']) || isset($_SESSION['err_email']) || isset($_SESSION['activation_msg']) || isset($_SESSION['err_token'])) {
     unset($_SESSION['err_fill']);
     unset($_SESSION['err_pw']);
     unset($_SESSION['err_email']);
     unset($_SESSION['activation_msg']);
+    unset($_SESSION['err_token']);
 }
 ?>
