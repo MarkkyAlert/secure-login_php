@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-size: 10px;
+        }
+
+        body {
+            background-color: #f1f3f7
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 3rem;
+            line-height: 2.5;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2rem;
+        }
+
+        p {
+            font-size: 1rem;
+        }
+
+        .code {
+            width: 100%;
+            background-color: #f1f3f7;
+            padding: 1rem;
+            overflow: scroll;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="text-center">คำแนะนำ</h1>
+        <p>Brute Force Protection เป็นการป้องกันโดยจำกัดจำนวนครั้งในการเข้าสู่ระบบ
+            เพื่อป้องกันไม่ให้ผู้ไม่หวังดีสามารถเข้าระบบของเราจากการเดารหัสผ่าน</p>
+        <h1>วิธีใช้</h1>
+        <p>เข้าไปที่ phpMyAdmin เลือก database ชื่อ "secure_login" และทำการ import ไฟล์ "login_attempts.sql"</p>
+        <p>เข้าไปที่ "main.php" และทำการเพิ่มโค้ดด้านล่าง</p>
+        <div class="code">
+<pre>
+function loginAttempts($db, $update = TRUE) {
+    $ip = $_SERVER['REMOTE_ADDR'];
+    $now = date('Y-m-d H:i:s');
+    if ($update) {
+        $insert_stmt = $db->prepare("INSERT INTO login_attempts (ip_address) VALUES (:ip) ON DUPLICATE KEY UPDATE attempts_left = attempts_left - 1");
+        $insert_stmt->bindParam(':ip', $ip);
+        $insert_stmt->execute();
+    }
+    $select_stmt = $db->prepare("SELECT * FROM login_attempts WHERE ip_address = :ip");
+    $select_stmt->bindParam(':ip', $ip);
+    $select_stmt->execute();
+    $login_attempts = $select_stmt->fetch(PDO::FETCH_ASSOC);
+    if ($login_attempts) {
+        // The user can try to login after 1 day... change the "+1 day" if you want increase/decrease this date.
+        $expire = date('Y-m-d H:i:s', strtotime('+1 day', strtotime($login_attempts['date'])));
+        if ($now > $expire) {
+            $delete_stmt = $db->prepare('DELETE FROM login_attempts WHERE ip_address = :ip');
+            $delete_stmt->bindParam(':ip', $ip);
+            $delete_stmt->execute();
+            $login_attempts = array();
+        }
+    }
+    return $login_attempts;
+}
+</pre>
+        </div>
+        <p>ไปที่ "login_db.php" และค้นหา</p>
+        <div class="code">
+<pre>
+$password = $_POST['password'];
+</pre>
+        </div>
+        <p>เพิ่มโค้ดชุดนี้หลังจากโค้ดด้านบน</p>
+        <div class="code">
+<pre>
+$login_attempts = loginAttempts($db, FALSE);
+if ($login_attempts && $login_attempts['attempts_left'] <= 0) {
+    $_SESSION['attempt'] = "คุณล็อกอินเกินจำนวนครั้งที่กำหนด กรุณาทำรายการใหม่ภายหลัง";
+    header('location: login.php');
+    exit;
+}
+</pre>
+        </div>
+        <p>ค้นหา</p>
+        <div class="code">
+<pre>
+$_SESSION['err_email'] = "ไม่มี email นี้ในระบบ";
+</pre>
+        </div>
+        <p>วางโค้ดชุดนี้แทนที่</p>
+        <div class="code">
+<pre>
+$login_attempts = loginAttempts($db, TRUE);
+$_SESSION['err_email'] = 'ไม่มีอีเมลนี้ในระบบ, คุณเหลือจำนวนครั้งในการล็อกอิน ' . $login_attempts['attempts_left'] . ' ครั้ง';
+</pre>
+        </div>
+        <p>ค้นหา</p>
+        <div class="code">
+<pre>
+$_SESSION['err_pw'] = "รหัสผ่านไม่ถูกต้อง";
+</pre>
+        </div>
+        <p>วางโค้ดชุดนี้แทนที่</p>
+        <div class="code">
+<pre>
+$login_attempts = loginAttempts($db, TRUE);
+$_SESSION['err_pw'] = 'รหัสผ่านไม่ถูกต้อง, คุณเหลือจำนวนครั้งในการล็อกอิน ' . $login_attempts['attempts_left'] . ' ครั้ง';
+</pre>
+        </div>
+        <p>** หากต้องการเปลี่ยนจำนวนครั้งในการล็อกอิน ให้เปลี่ยน default value ในตาราง "attempts_left"</p>
+    </div>
+</body>
+
+</html>
