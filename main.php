@@ -9,11 +9,11 @@ require 'PHPMailer/src/Exception.php';
 require 'PHPMailer/src/PHPMailer.php';
 require 'PHPMailer/src/SMTP.php';
 
-try {   //ทำการเชื่อมต่อ database
+try {   
     $db = new PDO("mysql:host=" . db_host . ";dbname=" . db_name, db_user, db_pass);
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 }
-catch (PDOException $e) {   //หากเชื่อมต่อผิดพลาดให้แสดงข้อความเตือน
+catch (PDOException $e) {   
     echo "Failed to connect" . $e->getMessage();
 }
 

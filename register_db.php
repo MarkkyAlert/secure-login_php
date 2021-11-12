@@ -1,5 +1,4 @@
 <?php
-session_start();    
 include('main.php');
 
 if (isset($_POST['submit'])) {
