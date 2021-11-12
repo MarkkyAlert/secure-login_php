@@ -9,4 +9,5 @@ define('mail_from', 'puettipong.o@gmail.com');
 define('mail_password', 'Appleid13');
 define('company_name', 'MARKPRUET');
 define('activation_link', 'http://localhost/secure-login_php/activate.php');
+define('reset_link', 'http://localhost/secure-login_php/resetpassword.php');
 date_default_timezone_set("Asia/Bangkok");

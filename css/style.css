@@ -14,12 +14,12 @@ body {
     max-width: 100%;
 }
 
-.login-background-blue {
-    background-color: #049081;
+.login-background-purple {
+    background-color: #FF91A1;
 }
 
-.login-btn-blue {
-    background-color: #049081;
+.login-btn-purple {
+    background-color: #FF91A1;
 }
 
 .login-card-custom {

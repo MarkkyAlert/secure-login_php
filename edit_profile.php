@@ -22,39 +22,77 @@ if (isset($_POST['submit'])) {
         $msg = "กรุณากรอกรหัสผ่านให้ตรงกัน";
     }
     if (empty($msg)) {
-        if (account_activation) {
-            if ($row['email'] == $email) {
-                $activation_code = $row['activation_code'];
+        if ($email != $row['email']) {
+            if (!empty($password) && !empty($confirm_password)) {
+                if (account_activation) {
+                    if ($row['email'] == $email) {
+                        $activation_code = $row['activation_code'];
+                    } 
+                    else {
+                        $activation_code = uniqid();
+                    }
+                } 
+                else {
+                    $activation_code = $row['activation_code'];
+                }
+                $password = password_hash($password, PASSWORD_DEFAULT);
+                $update_stmt = $db->prepare("UPDATE users SET email = :email, password = :password, activation_code = :activation_code WHERE user_id = :user_id");
+                $update_stmt->bindParam(':email', $email);
+                $update_stmt->bindParam(':password', $password);
+                $update_stmt->bindParam(':activation_code', $activation_code);
+                $update_stmt->bindParam(':user_id', $user_id);
+                $update_stmt->execute();
+                $_SESSION['email'] = $email;
+        
+                if (account_activation && $row['email'] != $email) {
+                    send_email($email, $activation_code);
+                    $msg = "คุณได้ทำการเปลี่ยนอีเมล กรุณายืนยันอีเมล";
+                    unset($_SESSION['is_logged_in']);
+                }
+                else {
+                    header("location: profile.php?email={$_SESSION['email']}");
+                    exit;
+                }
+            }
+            else {
+                $msg = "กรุณากรอกข้อมูลให้ครบ";
+            }
+        }
+        else {
+            if (account_activation) {
+                if ($row['email'] == $email) {
+                    $activation_code = $row['activation_code'];
+                } 
+                else {
+                    $activation_code = uniqid();
+                }
             } 
             else {
-                $activation_code = uniqid();
+                $activation_code = $row['activation_code'];
             }
-        } 
-        else {
-            $activation_code = $row['activation_code'];
-        }
-        if (!empty($password)) {
-            $password = password_hash($password, PASSWORD_DEFAULT);
-        } 
-        else {
-            $password = $row['password'];
-        }
-        $update_stmt = $db->prepare("UPDATE users SET email = :email, password = :password, activation_code = :activation_code WHERE user_id = :user_id");
-        $update_stmt->bindParam(':email', $email);
-        $update_stmt->bindParam(':password', $password);
-        $update_stmt->bindParam(':activation_code', $activation_code);
-        $update_stmt->bindParam(':user_id', $user_id);
-        $update_stmt->execute();
-        $_SESSION['email'] = $email;
-
-        if (account_activation && $row['email'] != $email) {
-            send_email($email, $activation_code);
-            $msg = "คุณได้ทำการเปลี่ยนอีเมล กรุณายืนยันอีเมล";
-            unset($_SESSION['is_logged_in']);
-        }
-        else {
-            header("location: profile.php?email={$_SESSION['email']}");
-            exit;
+            if (!empty($password)) {
+                $password = password_hash($password, PASSWORD_DEFAULT);
+            } 
+            else {
+                $password = $row['password'];
+            }
+            $update_stmt = $db->prepare("UPDATE users SET email = :email, password = :password, activation_code = :activation_code WHERE user_id = :user_id");
+            $update_stmt->bindParam(':email', $email);
+            $update_stmt->bindParam(':password', $password);
+            $update_stmt->bindParam(':activation_code', $activation_code);
+            $update_stmt->bindParam(':user_id', $user_id);
+            $update_stmt->execute();
+            $_SESSION['email'] = $email;
+    
+            if (account_activation && $row['email'] != $email) {
+                send_email($email, $activation_code);
+                $msg = "คุณได้ทำการเปลี่ยนอีเมล กรุณายืนยันอีเมล";
+                unset($_SESSION['is_logged_in']);
+            }
+            else {
+                header("location: profile.php?email={$_SESSION['email']}");
+                exit;
+            }
         }
     }
 }
@@ -126,6 +164,7 @@ if (isset($_POST['submit'])) {
                             </div>
 
                             <button type="submit" name="submit" class="btn btn-primary">save</button>
+                            
                         </form>
                     </div>
                 </div>

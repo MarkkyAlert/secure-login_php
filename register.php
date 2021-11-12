@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 
-<body class="login-background-blue">
+<body class="login-background-purple">
 
     <div class="flex-login-form">
 
@@ -66,7 +66,7 @@
                 <p class="text-center">เป็นสมาชิกอยู่แล้ว ? <a href="login.php">เข้าสู่ระบบ</a></p>
             </div>
 
-            <button type="submit" class="btn login-btn-blue btn-block text-white" name="submit">สมัครสมาชิก</button>
+            <button type="submit" class="btn login-btn-purple btn-block text-white" name="submit">สมัครสมาชิก</button>
 
         </form>
     </div>

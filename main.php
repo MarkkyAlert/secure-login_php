@@ -47,7 +47,7 @@ function is_not_admin($role, $redirect) {
     }
 }
 
-function template_email($link, $email, $activation_code) {
+function template_email($link, $email, $activation_code, $heading) {
     $activation_link = $link . '?email=' . $email . '&code=' . $activation_code;
     
     return <<<EOT
@@ -55,7 +55,6 @@ function template_email($link, $email, $activation_code) {
     <html>
     
     <head>
-        <title>Account Activation Required</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width,minimum-scale=1">
     </head>
@@ -63,10 +62,10 @@ function template_email($link, $email, $activation_code) {
     <body style="font-family:-apple-system, BlinkMacSystemFont, "segoe ui", roboto, oxygen, ubuntu, cantarell, "fira sans", "droid sans", "helvetica neue", Arial, sans-serif;box-sizing:border-box;font-size:16px;">
         <div style="background-color:#F5F6F8;">
             <div style="padding:60px;background-color:#fff;margin:60px;text-align:center;box-sizing:border-box;font-size:16px;">
-                <h1 style="box-sizing:border-box;font-size:18px;color:#474a50;padding-bottom:10px;">ยืนยันบัญชี</h1>
+                <h1 style="box-sizing:border-box;font-size:18px;color:#474a50;padding-bottom:10px;">$heading</h1>
                 <p style="box-sizing:border-box;font-size:16px;">คลิก <a href="$activation_link"
                         style="text-decoration:none;color:#c52424;box-sizing:border-box;font-size:16px;">ที่นี่</a>
-                    เพื่อทำการยืนยันบัญชี</p>
+                    เพื่อทำการ$heading</p>
             </div>
         </div>
     </body>
@@ -91,8 +90,8 @@ function send_email($email, $activation_code) {
     $mail->Password = mail_password;
     $mail->setFrom(mail_from, company_name);
     $mail->addAddress($email);
-    $mail->Subject = "กรุณายืนยันอีเมล์ของท่าน";
-    $email_content = template_email(activation_link, $email, $activation_code);
+    $mail->Subject = "กรุณายืนยันอีเมลของท่าน";
+    $email_content = template_email(activation_link, $email, $activation_code, "ยืนยันอีเมล");
     $email_receiver = $email;
 
     if ($email_receiver) {
@@ -100,6 +99,33 @@ function send_email($email, $activation_code) {
         $mail->send();
     }
 }
+
+function send_reset_link($email, $uniqid) {
+    header('Content-Type: text/html; charset=utf-8');
+    $mail = new PHPMailer;
+    $mail->CharSet = "utf-8";
+    $mail->isSMTP();
+    $mail->Host = 'smtp.gmail.com';
+    $mail->Port = 587;
+    $mail->SMTPSecure = 'tls';
+    $mail->SMTPAuth = true;
+
+    // ต้องขอการเข้าถึงจาก google ที่ https://www.google.com/settings/security/lesssecureapps
+
+    $mail->Username = mail_from;
+    $mail->Password = mail_password;
+    $mail->setFrom(mail_from, company_name);
+    $mail->addAddress($email);
+    $mail->Subject = "เปลี่ยนรหัสผ่าน";
+    $email_content = template_email(reset_link, $email, $uniqid, "เปลี่ยนรหัสผ่าน");
+    $email_receiver = $email;
+
+    if ($email_receiver) {
+        $mail->msgHTML($email_content);
+        $mail->send();
+    }
+}
+
 
 
 

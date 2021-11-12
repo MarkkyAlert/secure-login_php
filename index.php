@@ -50,7 +50,7 @@ check_login($db, "login.php");
                 <div class="card mt-5 text-center">
                     <div class="card-body">
                         <h1 style="line-height: 2.0;">ยินดีต้อนรับ</h1>
-                        <h3 style="line-height: 2.0;">คุณ <strong><?php echo $_SESSION['email']; ?></strong></h3> <!-- แสดงผล $_SESSION['email'] ซึ่งทำการเก็บ username ในขั้นตอน login หรือ register-->
+                        <h3 style="line-height: 2.0;">คุณ <strong><?php echo $_SESSION['email']; ?></strong></h3> 
                         <h3 style="line-height: 2.0;">คุณคือ <strong><?php echo $_SESSION['role']; ?></strong></h3>
                     </div>
                 </div>

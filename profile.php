@@ -5,7 +5,7 @@ check_login($db, "index.php");
 $select_stmt = $db->prepare("SELECT * FROM users WHERE email = :email");
 $select_stmt->bindParam(':email', $_SESSION['email']);
 $select_stmt->execute();
-$row = $select_stmt->fetch(PDO::FETCH_ASSOC);   // ทำบรรทัดนี้ กรณีที่เราต้องการดึงข้อมูลมาแสดง
+$row = $select_stmt->fetch(PDO::FETCH_ASSOC); 
 ?>
 
 <!DOCTYPE html>
@@ -55,8 +55,6 @@ $row = $select_stmt->fetch(PDO::FETCH_ASSOC);   // ทำบรรทัดน�
                 <div class="card mt-5">
                     <div class="card-body" style="line-height: 2.5;">
                         <h4>รายละเอียดบัญชี</h4>
-
-                        <!-- ทำการแสดงผลข้อมูลที่ query ขึ้นมา  โดยรูปแบบจะเป็น $row['ชื่อคอลัมน์']-->
                         <span class="mt-5" style="font-weight: 700;">Email</span> : <span><?php echo $row['email']; ?></span><br>
                         <span style="font-weight: 700;">Password</span> : <span><?php echo $row['password']; ?></span><br>
                         <span style="font-weight: 700;">Role</span> : <span><?php echo $row['role']; ?></span><br>

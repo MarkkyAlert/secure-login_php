@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 
-<body class="login-background-blue">
+<body class="login-background-purple">
 
     <div class="flex-login-form">
 
@@ -61,12 +61,17 @@
             </div>
 
             <div class="row">
-                <p class="text-center">ยังไม่เป็นสมาชิก ? <a href="register.php">สมัครสมาชิก</a></p>
+                <p class="text-center">จำรหัสผ่านไม่ได้ ? <a href="forgotpassword.php">ลืมรหัสผ่าน</a></p>
             </div>
 
-            <button type="submit" name="submit" class="btn login-btn-blue btn-block text-white">เข้าสู่ระบบ</button>
+            <button type="submit" name="submit" class="btn login-btn-purple btn-block text-white">เข้าสู่ระบบ</button>
 
         </form>
+
+        <div class="row mt-2">
+            <p class="text-center text-white">ยังไม่เป็นสมาชิก ? <a href="register.php" style="color: #fff; font-weight: bold;">สมัครสมาชิก</a></p>
+        </div>
+        
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
