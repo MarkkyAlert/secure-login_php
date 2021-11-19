@@ -1,4 +1,15 @@
-<?php session_start(); ?>
+<?php 
+session_start(); 
+
+if (isset($_SESSION['is_logged_in'])) {
+    if ($_SESSION['role'] == 'Admin') {
+        header('location: admin/index.php');
+    }
+    else {
+        header('location: index.php');
+    }
+}
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -18,6 +29,7 @@
 
         <h1 class="text-white mb-5">เข้าสู่ระบบ</h1>
 
+        <!-- ข้อความแจ้งเตือนจากหน้า login_db.php ที่มาจากตัวแปรเซสชัน -->
         <?php if (isset($_SESSION['err_fill'])) : ?>
             <div class="alert alert-danger alert-custom" role="alert">
                 <?php echo $_SESSION['err_fill']; ?>
@@ -81,6 +93,7 @@
 </html>
 
 <?php
+// ทำให้ข้อความเตือนหายไปเมื่อมีการรีเฟรชหน้า
 if (isset($_SESSION['err_fill']) || isset($_SESSION['err_pw']) || isset($_SESSION['err_email']) || isset($_SESSION['activation_msg']) || isset($_SESSION['err_token'])) {
     unset($_SESSION['err_fill']);
     unset($_SESSION['err_pw']);

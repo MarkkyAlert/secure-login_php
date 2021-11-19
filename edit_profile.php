@@ -23,7 +23,7 @@ if (isset($_POST['submit'])) {
     }
     if (empty($msg)) {
         if ($email != $row['email']) {
-            if (!empty($password) && !empty($confirm_password)) {
+            if (!empty($password) && !empty($confirm)) {
                 if (account_activation) {
                     if ($row['email'] == $email) {
                         $activation_code = $row['activation_code'];
